@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1761742403634,
+      "tag": "0000_freezing_micromax",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1761743012697,
+      "tag": "0001_panoramic_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761743035086,
+      "tag": "0002_flaky_power_man",
+      "breakpoints": true
+    }
+  ]
+}
