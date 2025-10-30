@@ -14,12 +14,10 @@ export function errorHandler(
   const message = err?.message || "Internal server error";
 
   if (process.env.NODE_ENV !== "production") {
-    console.error("❌ Error:", err);
+    console.error("Error:", err);
   } else {
-    console.error("❌ Error:", message);
+    console.error("Error:", message);
   }
 
   return res.status(status).json({ success: false, message });
 }
-
-

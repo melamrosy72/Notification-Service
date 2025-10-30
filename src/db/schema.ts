@@ -23,7 +23,7 @@ export const notificationStatusEnum = pgEnum("notification_status", [
 export const devices = pgTable("devices", {
   id: serial("id").primaryKey(),
   deviceId: varchar("device_id").notNull().unique(),
-  token: text("token").notNull(),
+  token: text("token"),
   platform: platformEnum("platform").notNull(),
   model: text("model"),
   brand: text("brand"),

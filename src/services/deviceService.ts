@@ -47,23 +47,32 @@ export const DeviceService = {
     };
   },
 
-  async getTokenByDeviceId(deviceId: string) {
+  async getDeviceById(deviceId: string) {
+
     const found = await db.query.devices.findFirst({
       where: eq(devices.deviceId, deviceId),
     });
-    return found?.token ?? null;
+    return found ?? null;
+  },
+
+  async getTokenByDeviceId(deviceId: string) {
+    const found = await this.getDeviceById(deviceId);
+    const token = found?.token ?? "";
+    return token && token.trim() !== "" ? token : null;
   },
 
   async getAllTokens() {
     const rows = await db.query.devices.findMany();
-    return rows.map((r) => r.token).filter(Boolean) as string[];
+    return rows
+      .map((r) => r.token)
+      .filter((t): t is string => Boolean(t && t.trim() !== ""));
   },
 
   async getAllDevices() {
     const rows = await db.query.devices.findMany();
     return rows.map((r) => ({
       deviceId: r.deviceId!,
-      token: r.token!,
+      token: r.token && r.token.trim() !== "" ? r.token : null,
       platform: r.platform as "android" | "ios" | "web",
       model: r.model!,
       brand: r.brand!,
