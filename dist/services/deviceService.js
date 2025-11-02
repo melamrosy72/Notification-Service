@@ -36,21 +36,28 @@ exports.DeviceService = {
             deviceId,
         };
     },
-    async getTokenByDeviceId(deviceId) {
+    async getDeviceById(deviceId) {
         const found = await db_1.db.query.devices.findFirst({
             where: (0, drizzle_orm_1.eq)(schema_1.devices.deviceId, deviceId),
         });
-        return found?.token ?? null;
+        return found ?? null;
+    },
+    async getTokenByDeviceId(deviceId) {
+        const found = await this.getDeviceById(deviceId);
+        const token = found?.token ?? "";
+        return token && token.trim() !== "" ? token : null;
     },
     async getAllTokens() {
         const rows = await db_1.db.query.devices.findMany();
-        return rows.map((r) => r.token).filter(Boolean);
+        return rows
+            .map((r) => r.token)
+            .filter((t) => Boolean(t && t.trim() !== ""));
     },
     async getAllDevices() {
         const rows = await db_1.db.query.devices.findMany();
         return rows.map((r) => ({
             deviceId: r.deviceId,
-            token: r.token,
+            token: r.token && r.token.trim() !== "" ? r.token : null,
             platform: r.platform,
             model: r.model,
             brand: r.brand,
@@ -58,7 +65,7 @@ exports.DeviceService = {
             registeredAt: r.registeredAt,
         }));
     },
-    async removeDevice(deviceId) {
+    async removeDeviceToken(deviceId) {
         await db_1.db
             .update(schema_1.devices)
             .set({ token: "" })

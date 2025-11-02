@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, ne } from "drizzle-orm";
 import { devices, platformEnum } from "../db/schema";
 import { db } from "../db";
 
@@ -69,16 +69,11 @@ export const DeviceService = {
   },
 
   async getAllDevices() {
-    const rows = await db.query.devices.findMany();
-    return rows.map((r) => ({
-      deviceId: r.deviceId!,
-      token: r.token && r.token.trim() !== "" ? r.token : null,
-      platform: r.platform as "android" | "ios" | "web",
-      model: r.model!,
-      brand: r.brand!,
-      version: r.version!,
-      registeredAt: r.registeredAt!,
-    }));
+    const rows = await db.select().from(devices).where(
+      // filter out devices without tokens
+      ne(devices.token, "")
+    );
+    return rows;
   },
 
   async removeDeviceToken(deviceId: string) {

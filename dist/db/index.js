@@ -38,6 +38,7 @@ require("dotenv/config");
 const node_postgres_1 = require("drizzle-orm/node-postgres");
 const pg_1 = require("pg");
 const schema = __importStar(require("./schema"));
+console.log("DATABASE_URL from db.ts:", process.env.DATABASE_URL);
 const pool = new pg_1.Pool({
     connectionString: process.env.DATABASE_URL,
 });

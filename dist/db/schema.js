@@ -12,7 +12,7 @@ exports.notificationStatusEnum = (0, pg_core_1.pgEnum)("notification_status", [
 exports.devices = (0, pg_core_1.pgTable)("devices", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
     deviceId: (0, pg_core_1.varchar)("device_id").notNull().unique(),
-    token: (0, pg_core_1.text)("token").notNull(),
+    token: (0, pg_core_1.text)("token"),
     platform: (0, exports.platformEnum)("platform").notNull(),
     model: (0, pg_core_1.text)("model"),
     brand: (0, pg_core_1.text)("brand"),
