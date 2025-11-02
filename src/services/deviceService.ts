@@ -1,4 +1,4 @@
-import { eq, ne } from "drizzle-orm";
+import { eq, ne, and, isNotNull } from "drizzle-orm";
 import { devices, platformEnum } from "../db/schema";
 import { db } from "../db";
 
@@ -71,7 +71,10 @@ export const DeviceService = {
   async getAllDevices() {
     const rows = await db.select().from(devices).where(
       // filter out devices without tokens
-      ne(devices.token, "")
+      and(
+        ne(devices.token, ""),
+        isNotNull(devices.token)
+      )
     );
     return rows;
   },
